@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"></property>
+		<property name="username" value="TESTSEC"></property>
+		<property name="password" value="Coderawakelab1"></property>
+	</bean>
+	
+	<bean id="jt" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<!-- JPA -->
+	<bean id="hibernateJpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+	
+	<!-- Configure the entity manager factory bean -->
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="jpaVendorAdapter"
+			ref="hibernateJpaVendorAdapter" />
+		<!-- Set JPA properties -->
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.Oracle9iDialect</prop>
+			</props>
+		</property>
+		<!-- Ruta de las entidades -->
+		<property name="packagesToScan" value="cl.titanium.security.model" />
+	</bean>
+
+	<!-- Configure the transaction manager bean -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory"
+			ref="entityManagerFactory" />
+	</bean>
+	
+	<tx:annotation-driven />
+	
+	<!-- Ruta de los epositorios -->
+	<jpa:repositories base-package="cl.titanium.security.repositories" />
+	
+	<!-- Ruta de los servicios -->
+	<context:component-scan
+		base-package="cl.titanium.security.services" />
+	
+	<bean id="procesarLogin" class="cl.titanium.security.config.ProcesarLogin">
+	</bean>
+	
+	<bean id="asedao" class="cl.titanium.security.dao.AsesoriaDAO">
+		<property name="template" ref="jt"></property>
+	</bean>
+	
+	<bean id="chkdao" class="cl.titanium.security.dao.ChecklistDAO">
+		<property name="template" ref="jt"></property>
+	</bean>
+
+	<bean id="estdao" class="cl.titanium.security.dao.EstadoDAO">
+		<property name="template" ref="jt"></property>
+	</bean>
+
+	<bean id="tardao" class="cl.titanium.security.dao.TareaDAO">
+		<property name="template" ref="jt"></property>
+	</bean>
+
+</beans>

@@ -1,0 +1,84 @@
+                    .login {
+                    background-color: #e9ecef;
+                }
+                
+                .banner {
+                    position: relative;
+                    width: auto;
+                    height: 250px;
+                    border: 1px solid transparent;
+                    background-color: #cecbcbf5;
+                    background-size: cover;
+                    background-position: center;
+                    transition: all 1s ease-in-out;
+                    background-image: url(../imagenes/security1.jpg);
+                    animation: banner 28s infinite linear;
+                }
+                
+                @keyframes banner {
+                    0% {
+                        background-image: url(../imagenes/security2.jpg);
+                    }
+                    25% {
+                        background-image: url(../imagenes/security2.jpg);
+                    }
+                    26% {
+                        background-image: url(../imagenes/security3.jpg);
+                    }
+                    50% {
+                        background-image: url(../imagenes/security3.jpg);
+                    }
+                    51% {
+                        background-image: url(../imagenes/security4.jpg);
+                    }
+                    75% {
+                        background-image: url(../imagenes/security4.jpg);
+                    }
+                    76% {
+                        background-image: url(../imagenes/security5.jpg);
+                    }
+                    
+}
+                    footer {
+	                   background-color:cornflowerblue;
+	                   height: 50px;
+	                   margin: auto;
+	                   border-radius: 1%;
+	                   text-align: center;
+	                   color: white;
+	                   padding-top: 15px;
+                      }
+                      
+                      footer a{
+                      
+                      color:white;
+                      }
+                      
+                      @media only screen and (max-width:1366px) {
+                     /*top down*/
+                     }
+
+
+                     /*Tablet*/
+
+                     @media only screen and (max-width:936px) {
+                     .banner {
+                      display: block;
+                      }
+                      }
+
+
+                      /*CELULAR*/
+
+                     @media only screen and (max-width: 600px) {
+                     .banner {
+                      display: none;
+                      }
+                      #sec1 {
+                      display: block;
+                       }
+                       .bienvenida{
+                       display:none;
+                       }
+                       }
+                      

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans
+	xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                    http://www.springframework.org/schema/security 
+                    http://www.springframework.org/schema/security/spring-security-5.2.xsd">
+
+
+	<http auto-config="true">
+		<intercept-url pattern="/" access="permitAll()"/>
+		<intercept-url pattern="/Login" access="permitAll()"/>
+		<intercept-url pattern="/logout" access="permitAll()"/>
+		<intercept-url pattern="/resources/**" access="permitAll()"/>
+		<intercept-url pattern="/admin/**" access="hasAuthority('administrador')"/>
+		<intercept-url pattern="/pro/**" access="hasAuthority('profesional')"/>
+		<intercept-url pattern="/cli/**" access="hasAuthority('cliente')"/>
+		<intercept-url pattern="/rest/**" access="hasAuthority('profesional')"/>
+		<!-- user-defined login form redirection -->
+        <form-login login-page="/Login" default-target-url="/"
+            authentication-failure-url="/Login?error" authentication-success-handler-ref="procesarLogin" />
+ 
+        <!-- logout url -->
+        <logout logout-success-url="/Login?logout" logout-url="/logout"/>
+        <csrf disabled="true"/>
+        
+	</http>
+	<authentication-manager>
+		<authentication-provider>
+			<password-encoder hash="bcrypt" />
+			<jdbc-user-service data-source-ref="dataSource"
+				users-by-username-query=" 
+	    SELECT usuario AS username, password, 1 AS enabled FROM usuario WHERE usuario = ?"
+	
+				authorities-by-username-query="SELECT usuario AS username, tipo AS authority FROM usuario 
+	WHERE usuario = ?" />
+		</authentication-provider>
+	</authentication-manager>
+	
+
+
+</beans:beans>
